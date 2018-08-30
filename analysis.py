@@ -9,7 +9,7 @@ import traceback
 import datetime
 import os
 
-DUMPNAME='anjuke'+ str(datetime.date.today()) 
+DUMPNAME='CS'+ str(datetime.date.today()) 
 
 
 def clean_csvdata(filepath):
@@ -18,10 +18,10 @@ def clean_csvdata(filepath):
 	data.columns =['编号','面积/m²','价格/万','厅室','楼层','建造年份','单位价格','联系人','小区+详细地址','业主描述','链接']
 	data=data.drop_duplicates(subset=['面积/m²','价格/万','厅室','楼层','建造年份','小区+详细地址'])
 	data['编号']=[i for i in range(0,len(data))]
-	data['面积/m²'] = data['面积/m²'].str.extract('(\d+)m²', expand =False)
-	data['价格/万'] = data['价格/万'].str.extract('(\d+)万', expand =False)
-	data['单位价格'] = data['单位价格'].str.extract('(\d+)元/m²', expand =False)
-	data['建造年份'] = data['建造年份'].str.extract('(\d+)年建造', expand =False)
+	data['面积/m²'] = data['面积/m²'].str.extract('^(.*)m²', expand =False)
+	data['价格/万'] = data['价格/万'].str.extract('^(.*)万', expand =False)
+	data['单位价格'] = data['单位价格'].str.extract('^(.*)元/m²', expand =False)
+	data['建造年份'] = data['建造年份'].str.extract('^(.*)年建造', expand =False)
 	data.to_csv(os.path.join('./output_data',DUMPNAME+'_clean.csv'),index=False)
 
 
@@ -90,7 +90,7 @@ def filter_data(FILTER_AREA,FILTER_PRICE):
 	lng=lng.tolist()
 	lat=lat.tolist()
 	print('printing html file... / 开始输出网页文件。。。')
-	file = open(os.path.join('./output_data', DUMPNAME+'_my_buidumap.html'),'w')
+	file = open(os.path.join('./doc', DUMPNAME+'_my_buidumap.html'),'w')
 	f_temp=open('template_upper.html','r')
 	file.write(f_temp.read())
 	f_temp.close()
@@ -98,7 +98,10 @@ def filter_data(FILTER_AREA,FILTER_PRICE):
 
 		lng[i]=(getlnglat(df3['estate'][i])['result']['location']['lng'])
 		lat[i]=(getlnglat(df3['estate'][i])['result']['location']['lat'])
-		df3.loc[i,'content']=df3.content[i]+''.join(df4.loc[df3.estate[i]:df3.estate[i],'content'])
+		if len(df4.loc[df3.estate[i]:df3.estate[i]])>40:
+			df3.loc[i,'content']=df3.content[i]+''.join(df4.loc[df3.estate[i]:df3.estate[i][:40],'content'])
+		else:
+			df3.loc[i,'content']=df3.content[i]+''.join(df4.loc[df3.estate[i]:df3.estate[i],'content'])
 		str_temp = '{content:\"'+df3.content[i].replace("\"",'\\"') +'\"' \
 					+',title:\"'+df3['head'][i]+'\"' \
 					+',imageOffset: {width:0,height:3}' \

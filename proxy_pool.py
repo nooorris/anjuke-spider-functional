@@ -164,7 +164,7 @@ def sort_one_valid_proxy2(proxys_list):
 		#获取IP
 		ip = split_proxy[1]
 		#检查ip
-		if check_ip(ip, lose_time, waste_time):
+		if check_ip2(ip, lose_time, waste_time):
 			break
 		else:
 			proxys_list.remove(proxy)

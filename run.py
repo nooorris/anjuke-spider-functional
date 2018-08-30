@@ -17,15 +17,17 @@ if __name__ =='__main__':
 	#url='https://fz.anjuke.com/sale/taijiang/p1/#filtersort'
 	
 	PAGE=50
-	FILTER_AREA=[60,130]		# 单位：平方米
-	FILTER_PRICE=[0,210]		# 单位：万元	
+	FILTER_AREA=[60,150]		# 单位：平方米
+	FILTER_PRICE=[0,200]		# 单位：万元	
 	IS_PROXY = 0				# 是否使用代理ip,1为使用	
-	DUMPNAME='anjuke'+ str(datetime.date.today())
+	DUMPNAME='CS'+ str(datetime.date.today())
 	# urls=['https://fz.anjuke.com/sale/cangshan/p1/#filtersort', \
 	# 		'https://fz.anjuke.com/sale/mawei/p1/#', \
 	# 		'https://fz.anjuke.com/sale/taijiang/p1/#filtersort', \
 	# 		]
-
+	# urls=['https://cs.anjuke.com/sale/yuelu/p1/#filtersort','https://cs.anjuke.com/sale/kaifu/p1/#filtersort', \
+	# 	'https://cs.anjuke.com/sale/furong/p1/#filtersort','https://cs.anjuke.com/sale/tianxin/p1/#filtersort']
+	# urls=['https://cs.anjuke.com/sale/furong/p1/#filtersort','https://cs.anjuke.com/sale/kaifu/p1/#filtersort']
 	# f=open(os.path.join('./output_data',DUMPNAME+'.csv'), 'w', encoding='UTF-8', newline='')
 	# w=csv.writer(f)
 	# head =['编号','面积/m²','价格/万','厅室','楼层','建造年份','单位价格','联系人','小区+详细地址','业主描述','链接']
@@ -57,7 +59,7 @@ if __name__ =='__main__':
 	###########################################################################
 	# 2. remove duplicated ones and dump into 'result_clean.csv' 
 	###########################################################################
-	#analysis.clean_csvdata(os.path.join('./output_data', DUMPNAME+'.csv'))
+	analysis.clean_csvdata(os.path.join('./output_data', DUMPNAME+'.csv'))
 
 	###########################################################################
 	# 3. data analysis and create html file
